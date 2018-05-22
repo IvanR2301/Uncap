@@ -20,7 +20,7 @@ public class StraightSwipeControl : MonoBehaviour {
 	private Rigidbody rb;
 	private Vector3 startPosition;
 
-	private float corkForce = 300;
+	private float corkForce = 1000;
 	private float deltaY = 0;
 	public float maxDelta = 2;
 
@@ -28,7 +28,7 @@ public class StraightSwipeControl : MonoBehaviour {
 	void Start () {
 		//thisObj = this.gameObject;
 		rb = gameObject.GetComponent<Rigidbody> ();
-		anim = GameObject.Find ("Wine Bottle").GetComponent<Animator> ();
+		anim = GameObject.Find ("New Wine Bottle").GetComponent<Animator> ();
 		startPosition = gameObject.transform.localPosition;
 		tp = GameObject.Find ("GM").GetComponent<TimerandPoint>();
 		lc = GameObject.Find ("GM").GetComponent<LevelController>();
@@ -113,7 +113,7 @@ public class StraightSwipeControl : MonoBehaviour {
 		//When the bottle is opened
 		else 
 		{
-			anim.SetTrigger("Pop");
+			anim.enabled = false;
 			if (!resetTime) {
 				//Count points and go to next level
 				tp.StartCoroutine (tp.NextLevel());
@@ -149,6 +149,7 @@ public class StraightSwipeControl : MonoBehaviour {
 		}
 		if (swUp && upLock) {
 			movePosition += Vector3.up * 0.05f;
+			anim.SetTrigger("Pop");
 		}
 		if (swDown && downLock) {
 			movePosition += Vector3.back * 0.05f;
