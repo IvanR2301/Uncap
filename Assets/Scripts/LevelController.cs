@@ -22,10 +22,12 @@ public class LevelController : MonoBehaviour {
 			Time.deltaTime * 5f);
 	}
 
+	//Rotate the cube to the next level
 	public void RotateLevel()
 	{
 		lv++;
 		levels [lv].SetActive(true);
 		targetRot *= Quaternion.AngleAxis (rotationAmount, Vector3.back);
+		levels [lv-1].SetActive(false);
 	}
 }

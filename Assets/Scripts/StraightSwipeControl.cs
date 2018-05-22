@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StraightSwipeControl : MonoBehaviour {
-
+	
+	Animator anim;
 	private bool tap, swLeft, swRight, swUp, swDown;
 	public bool leftLock, rightLock, upLock, downLock = false;
 
@@ -19,7 +20,7 @@ public class StraightSwipeControl : MonoBehaviour {
 	private Rigidbody rb;
 	private Vector3 startPosition;
 
-	private float corkForce = 300;
+	private float corkForce = 3000;
 	private float deltaY = 0;
 	public float maxDelta = 2;
 
@@ -27,10 +28,10 @@ public class StraightSwipeControl : MonoBehaviour {
 	void Start () {
 		//thisObj = this.gameObject;
 		rb = gameObject.GetComponent<Rigidbody> ();
+		anim = GameObject.Find ("CorkBottle_Animate").GetComponent<Animator> ();
 		startPosition = gameObject.transform.localPosition;
 		tp = GameObject.Find ("GM").GetComponent<TimerandPoint>();
 		lc = GameObject.Find ("GM").GetComponent<LevelController>();
-		//thisPart.Stop ();
 	}
 	
 	// Update is called once per frame
@@ -42,11 +43,17 @@ public class StraightSwipeControl : MonoBehaviour {
 			tap = true;
 			isDraging = true;
 			startTouch = Input.mousePosition;
+			anim.SetBool("touch_On", true);
 		} 
 		else if (Input.GetMouseButtonUp (0)) {
 			isDraging = false;
+			anim.SetBool("touch_On", false);
 			Reset ();
 		}
+
+		//if (Input.GetMouseButton (0)) {
+		//	anim.SetBool("touch_On", true);
+		//}
 
 		//Mobile input
 		if (Input.touches.Length > 0) {
@@ -106,6 +113,7 @@ public class StraightSwipeControl : MonoBehaviour {
 		//When the bottle is opened
 		else 
 		{
+			anim.SetTrigger("Pop");
 			if (!resetTime) {
 				//Count points and go to next level
 				tp.StartCoroutine (tp.NextLevel());
@@ -113,6 +121,7 @@ public class StraightSwipeControl : MonoBehaviour {
 			}
 			rb.isKinematic = false;
 			if (!pop) {
+				Debug.Log ("Pop");
 				rb.AddForce (transform.up * corkForce);
 				rb.AddForce (transform.right * 50);
 			}
@@ -141,6 +150,9 @@ public class StraightSwipeControl : MonoBehaviour {
 		}
 		if (swUp && upLock) {
 			movePosition += Vector3.up * 0.05f;
+			anim.SetTrigger("Pop");
+			//rb.AddForce (transform.up * corkForce);
+			//rb.AddForce (transform.right * 50);
 		}
 		if (swDown && downLock) {
 			movePosition += Vector3.back * 0.05f;

@@ -9,7 +9,7 @@ public class TimerandPoint : MonoBehaviour {
 	private float timeDecrease = 2;
 	private float decreaseRate = 1;
 	private float scoreMultiplier = 100;
-	private int score = 0;
+	private float score = 0;
 	private bool pause = false;
 
 	private UnityEngine.UI.Slider timer;
@@ -27,7 +27,8 @@ public class TimerandPoint : MonoBehaviour {
 		timer.maxValue = maxTime;
 	}
 	
-	// Update is called once per frame
+	// Update is called once per frame 
+	// Hiiiii bruh
 	void Update () {
 		if (!pause) {
 			timer.value -= Time.deltaTime * decreaseRate;
@@ -51,7 +52,7 @@ public class TimerandPoint : MonoBehaviour {
 
 	public void CalculatePoints()
 	{
-		score += (int)(timer.value * scoreMultiplier);
+		score += Mathf.Round (timer.value * scoreMultiplier);
 	}
 
 	public IEnumerator NextLevel()
