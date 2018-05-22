@@ -28,7 +28,7 @@ public class TimerandPoint : MonoBehaviour {
 	}
 	
 	// Update is called once per frame 
-	// Hiiiii
+	// Hiiiii bruh
 	void Update () {
 		if (!pause) {
 			timer.value -= Time.deltaTime * decreaseRate;
