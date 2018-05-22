@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StraightSwipeControl : MonoBehaviour {
-
+	
 	Animator anim;
 	private bool tap, swLeft, swRight, swUp, swDown;
 	public bool leftLock, rightLock, upLock, downLock = false;
@@ -20,7 +20,7 @@ public class StraightSwipeControl : MonoBehaviour {
 	private Rigidbody rb;
 	private Vector3 startPosition;
 
-	private float corkForce = 300;
+	private float corkForce = 3000;
 	private float deltaY = 0;
 	public float maxDelta = 2;
 
@@ -28,7 +28,7 @@ public class StraightSwipeControl : MonoBehaviour {
 	void Start () {
 		//thisObj = this.gameObject;
 		rb = gameObject.GetComponent<Rigidbody> ();
-		anim = GameObject.Find ("Wine Bottle").GetComponent<Animator> ();
+		anim = GameObject.Find ("CorkBottle_Animate").GetComponent<Animator> ();
 		startPosition = gameObject.transform.localPosition;
 		tp = GameObject.Find ("GM").GetComponent<TimerandPoint>();
 		lc = GameObject.Find ("GM").GetComponent<LevelController>();
@@ -121,6 +121,7 @@ public class StraightSwipeControl : MonoBehaviour {
 			}
 			rb.isKinematic = false;
 			if (!pop) {
+				Debug.Log ("Pop");
 				rb.AddForce (transform.up * corkForce);
 				rb.AddForce (transform.right * 50);
 			}
@@ -149,6 +150,9 @@ public class StraightSwipeControl : MonoBehaviour {
 		}
 		if (swUp && upLock) {
 			movePosition += Vector3.up * 0.05f;
+			anim.SetTrigger("Pop");
+			//rb.AddForce (transform.up * corkForce);
+			//rb.AddForce (transform.right * 50);
 		}
 		if (swDown && downLock) {
 			movePosition += Vector3.back * 0.05f;
