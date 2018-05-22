@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StraightSwipeControl : MonoBehaviour {
 
+	Animator anim;
 	private bool tap, swLeft, swRight, swUp, swDown;
 	public bool leftLock, rightLock, upLock, downLock = false;
 
@@ -27,10 +28,10 @@ public class StraightSwipeControl : MonoBehaviour {
 	void Start () {
 		//thisObj = this.gameObject;
 		rb = gameObject.GetComponent<Rigidbody> ();
+		anim = GameObject.Find ("Wine Bottle").GetComponent<Animator> ();
 		startPosition = gameObject.transform.localPosition;
 		tp = GameObject.Find ("GM").GetComponent<TimerandPoint>();
 		lc = GameObject.Find ("GM").GetComponent<LevelController>();
-		//thisPart.Stop ();
 	}
 	
 	// Update is called once per frame
@@ -42,11 +43,17 @@ public class StraightSwipeControl : MonoBehaviour {
 			tap = true;
 			isDraging = true;
 			startTouch = Input.mousePosition;
+			anim.SetBool("touch_On", true);
 		} 
 		else if (Input.GetMouseButtonUp (0)) {
 			isDraging = false;
+			anim.SetBool("touch_On", false);
 			Reset ();
 		}
+
+		//if (Input.GetMouseButton (0)) {
+		//	anim.SetBool("touch_On", true);
+		//}
 
 		//Mobile input
 		if (Input.touches.Length > 0) {
@@ -106,6 +113,7 @@ public class StraightSwipeControl : MonoBehaviour {
 		//When the bottle is opened
 		else 
 		{
+			anim.SetTrigger("Pop");
 			if (!resetTime) {
 				//Count points and go to next level
 				tp.StartCoroutine (tp.NextLevel());
